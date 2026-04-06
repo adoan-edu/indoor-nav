@@ -53,7 +53,7 @@ final Map<String, Landmark> building1Landmarks = {
   ),
   'Restroom E': Landmark(
     id: 'E',
-    name: 'restroom',
+    name: 'Restroom E',
     property: '3x6',
     type: 'room',
     sensoryType: 'visual',
@@ -63,7 +63,7 @@ final Map<String, Landmark> building1Landmarks = {
   ),
   'Function Room F': Landmark(
     id: 'F',
-    name: 'function room',
+    name: 'Function Room F',
     property: '9x5',
     type: 'room',
     sensoryType: '',
@@ -73,7 +73,7 @@ final Map<String, Landmark> building1Landmarks = {
   ),
   'Stairway G': Landmark(
     id: 'G',
-    name: 'stairway',
+    name: 'Stairway G',
     property: '3x6',
     type: 'room',
     sensoryType: '',
@@ -83,7 +83,7 @@ final Map<String, Landmark> building1Landmarks = {
   ),
   'Elevator H': Landmark(
     id: 'H',
-    name: 'elevator',
+    name: 'Elevator H',
     property: '2x2',
     type: 'room',
     sensoryType: '',

@@ -9,7 +9,7 @@ class NavigationLogic {
     final double xN = nextLandmark.x;
     final double yN = nextLandmark.y;
 
-    return sqrt(pow((xN - xO), 2) + pow((yN - yO), 2)); // Pythagorian Distance - BIV Distance
+    return (xN - xO).abs() + (yN - yO).abs(); // Node Link Distance
   }
 
   String calculateAction(Landmark currentLandmark, Landmark nextLandmark) {
@@ -17,8 +17,9 @@ class NavigationLogic {
     final double yO = currentLandmark.y;
     final double xN = nextLandmark.x;
     final double yN = nextLandmark.y;
-    
-    num theta = atan((yN - yO).abs() / (xN - xO).abs());  // Angle between the x and y components that separate the current landmark and the next landmark
+
+    num theta = atan((yN - yO).abs() / (xN - xO).abs(),
+    ); // Angle between the x and y components that separate the current landmark and the next landmark
     double angleThreshold = pi / 2;
 
     if (0 < theta && theta < angleThreshold) {
