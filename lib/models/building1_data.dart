@@ -1,28 +1,19 @@
 import 'landmark.dart';
 
 final Map<String, Landmark> building1Landmarks = {
-  'Start': Landmark(
-    id: '0',
-    name: 'Reference Point',
-    property: '',
-    type: '',
-    sensoryType: '',
-    isNode: false,
-    x: 0,
-    y: 0, 
-  ),
-  'Storage Room A' : Landmark(
-    id: 'A',
+  // A=2 (Room) in id ABC
+  'room_a': Landmark(
+    id: '201', // A=2 (room), BC=01
     name: 'Storage Room A',
     property: '3x3',
     type: 'room',
     sensoryType: 'visual',
     isNode: false,
     x: 1.5,
-    y: 7.5, 
+    y: 7.5,
   ),
-  'Storage Room B': Landmark(
-    id: 'B',
+  'room_b': Landmark(
+    id: '202',
     name: 'Storage Room B',
     property: '3x3',
     type: 'room',
@@ -31,8 +22,8 @@ final Map<String, Landmark> building1Landmarks = {
     x: 1.5,
     y: 3.5,
   ),
-  'Office C': Landmark(
-    id: 'C',
+  'room_c': Landmark(
+    id: '203',
     name: 'Office C',
     property: '4x4',
     type: 'room',
@@ -41,8 +32,8 @@ final Map<String, Landmark> building1Landmarks = {
     x: 9.0,
     y: 4.0,
   ),
-  'Office D': Landmark(
-    id: 'D',
+  'room_d': Landmark(
+    id: '204',
     name: 'Office D',
     property: '4x4',
     type: 'room',
@@ -51,8 +42,8 @@ final Map<String, Landmark> building1Landmarks = {
     x: 14.0,
     y: 4.0,
   ),
-  'Restroom E': Landmark(
-    id: 'E',
+  'room_e': Landmark(
+    id: '205',
     name: 'Restroom E',
     property: '3x6',
     type: 'room',
@@ -61,8 +52,8 @@ final Map<String, Landmark> building1Landmarks = {
     x: 1.5,
     y: -5.0,
   ),
-  'Function Room F': Landmark(
-    id: 'F',
+  'room_f': Landmark(
+    id: '206',
     name: 'Function Room F',
     property: '9x5',
     type: 'room',
@@ -71,8 +62,10 @@ final Map<String, Landmark> building1Landmarks = {
     x: 11.5,
     y: -4.5,
   ),
-  'Stairway G': Landmark(
-    id: 'G',
+
+  // A=3 (landmark) in id ABC
+  'stairs_g': Landmark(
+    id: '301', // A=3 (multi-level access), BC=01
     name: 'Stairway G',
     property: '3x6',
     type: 'room',
@@ -81,8 +74,8 @@ final Map<String, Landmark> building1Landmarks = {
     x: 10.0,
     y: -12.5,
   ),
-  'Elevator H': Landmark(
-    id: 'H',
+  'elevator_h': Landmark(
+    id: '302',
     name: 'Elevator H',
     property: '2x2',
     type: 'room',
@@ -91,38 +84,8 @@ final Map<String, Landmark> building1Landmarks = {
     x: 15.0,
     y: -2.0,
   ),
-  'Corner': Landmark(
-    id: 'J1',
-    name: 'corner',
-    property: '',
-    type: 'junction',
-    sensoryType: 'visual',
-    isNode: true,
-    x: 4.0,
-    y: 9.0,
-  ),
-  '4-way Intersection': Landmark(
-    id: 'J2',
-    name: '4-way intersection',
-    property: '',
-    type: 'junction',
-    sensoryType: 'visual',
-    isNode: true,
-    x: 5.0,
-    y: 0.0,
-  ),
-  'T-Junction': Landmark(
-    id: 'J3',
-    name: 'T-junction',
-    property: '',
-    type: 'junction',
-    sensoryType: 'visual',
-    isNode: true,
-    x: 5.0,
-    y: -9.0,
-  ),
-  'Plant': Landmark(
-    id: 'l1',
+  'plant_elevator': Landmark(
+    id: '303',
     name: 'plant in brown basket',
     property: 'tall, green',
     type: 'plant',
@@ -131,8 +94,8 @@ final Map<String, Landmark> building1Landmarks = {
     x: 13,
     y: -9.8,
   ),
-  'Board': Landmark(
-    id: 'l2',
+  'board_function_room': Landmark(
+    id: '304',
     name: 'Research News Board',
     property: 'brown, wooden',
     type: 'bulletitin board',
@@ -141,8 +104,8 @@ final Map<String, Landmark> building1Landmarks = {
     x: 5.9,
     y: -7,
   ),
-  'Fountain': Landmark(
-    id: 'l3',
+  'fountain_restroom': Landmark(
+    id: '305',
     name: 'drink fountain',
     property: 'rectangular',
     type: 'drink fountain',
@@ -151,9 +114,8 @@ final Map<String, Landmark> building1Landmarks = {
     x: 4,
     y: -1,
   ),
-  //
-  'Painting': Landmark(
-    id: 'l4',
+  'painting_office_storage': Landmark(
+    id: '306',
     name: 'painting',
     property: 'vibrant, patterned',
     type: 'display',
@@ -162,14 +124,117 @@ final Map<String, Landmark> building1Landmarks = {
     x: 6,
     y: 4.5,
   ),
-  'Chair': Landmark(
-    id: 'l5',
+  'chair_corner_storage': Landmark(
+    id: '307',
     name: 'chair',
     property: 'red, soft',
     type: 'chair',
     sensoryType: 'visual',
     isNode: false,
     x: 4.5,
-    y: -0.9,
+    y: 8.5,
   ),
+
+  // A=1 (nodes) in id ABC
+  'corner_4_9': Landmark(
+    id: '101', // A=1 (node), BC=01 (first node excluding the reference point)
+    name: 'corner',
+    property: '',
+    type: 'junction',
+    sensoryType: 'visual',
+    isNode: true,
+    x: 4.0,
+    y: 9.0,
+  ),
+  'junc_5_0': Landmark(
+    id: '102',
+    name: '4-way intersection',
+    property: '',
+    type: 'junction',
+    sensoryType: 'visual',
+    isNode: true,
+    x: 5.0,
+    y: 0.0,
+  ),
+  'junc_5_neg9': Landmark(
+    id: '103',
+    name: 'T-junction',
+    property: '',
+    type: 'junction',
+    sensoryType: 'visual',
+    isNode: true,
+    x: 5.0,
+    y: -9.0,
+  ),
+  'node_5_3p5': Landmark(
+    id: '104',
+    name: 'to Storage Room B',
+    property: '',
+    type: 'node',
+    sensoryType: '',
+    isNode: true,
+    x: 5.0,
+    y: 3.5,
+  ),
+  'node_11p5_8': Landmark(
+    id: '105',
+    name: 'bisector behind Room C and D',
+    property: '',
+    type: 'node',
+    sensoryType: '',
+    isNode: true,
+    x: 11.5,
+    y: 8,
+  ),
+  'node_9p5_0': Landmark(
+    id: '106',
+    name: 'to Office C',
+    property: '',
+    type: 'node',
+    sensoryType: '',
+    isNode: true,
+    x: 9.5,
+    y: 0,
+  ),
+  'node_14p5_0': Landmark(
+    id: '107',
+    name: 'to Office D',
+    property: '',
+    type: 'node',
+    sensoryType: '',
+    isNode: true,
+    x: 14.5,
+    y: 0,
+  ),
+  'node_5_neg3p5': Landmark(
+    id: '108',
+    name: 'to Restroom E',
+    property: '',
+    type: 'node',
+    sensoryType: '',
+    isNode: true,
+    x: 5,
+    y: -3.5,
+  ),
+  'node_7p5_neg9': Landmark(
+    id: '109',
+    name: 'to Stairway G',
+    property: '',
+    type: 'node',
+    sensoryType: '',
+    isNode: true,
+    x: 7.5,
+    y: -9,
+  ),
+  'node_15_neg9': Landmark(
+    id: '110',
+    name: 'to Elevator H',
+    property: '',
+    type: 'node',
+    sensoryType: '',
+    isNode: true,
+    x: 15,
+    y: -9,
+  ),
+    
 };
