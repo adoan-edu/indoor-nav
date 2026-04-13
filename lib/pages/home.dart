@@ -104,10 +104,10 @@ class _HomePageState extends State<HomePage> {
           "In ${distance.round()}m, your destination, $destinationName, is on your $action.";
     } else {
       instructionDistanceBased =
-          "Head forwards for ${distance.round()}m and turn $action.";
+          "Head forwards ${distance.round()}m and turn $action.";
       // Utilise description generator for this step
       instructionLandmarkGuided =
-          "Head forwards for ${distance.round()}m ${_generator.generate(nextLandmark, action)}";
+          "Head forwards ${distance.round()}m ${_generator.generate(nextLandmark, action)}";
     }
 
     setState(() {
