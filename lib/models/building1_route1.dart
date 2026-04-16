@@ -7,7 +7,7 @@ Landmark getLandmark(String id) {
   return building1Landmarks[id] ??
       Landmark(
         id: 'err',
-        name: '',
+        name: '<error> landmark not found',
         x: 0,
         y: 0,
         isNode: false,
@@ -23,11 +23,11 @@ final List<NavigationRoute> building1Route1 = [
     title: 'Demo Route 1',
     subtitle: 'Entrance to Elevator H',
     landmarks: [
-      getLandmark('Start'),
-      getLandmark('Chair'),
-      getLandmark('Board'),
-      getLandmark('Plant'),
-      getLandmark('Elevator H'),
+      getLandmark('start'),
+      getLandmark('chair_corner_storage'),
+      getLandmark('board_function_room'),
+      getLandmark('plant_elevator'),
+      getLandmark('elevator_h'),
     ],
   ),
 ];

@@ -136,6 +136,16 @@ final Map<String, Landmark> building1Landmarks = {
   ),
 
   // A=1 (nodes) in id ABC
+  'start': Landmark(
+    id: '100',
+    name: 'start',
+    property: '',
+    type: '',
+    sensoryType: '',
+    isNode: true,
+    x: 0,
+    y: 0,
+  ),
   'corner_4_9': Landmark(
     id: '101', // A=1 (node), BC=01 (first node excluding the reference point)
     name: 'corner',
@@ -236,5 +246,4 @@ final Map<String, Landmark> building1Landmarks = {
     x: 15,
     y: -9,
   ),
-    
 };
