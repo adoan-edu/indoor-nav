@@ -27,7 +27,7 @@ class NavigationLogic {
     // Compare the current heading with the new heading and update if there is a change
     if (currentHeading == theta) {
       return 'head towards';
-    } else {
+    } else {  
       currentHeading = theta;
       if (0 < theta && theta < angleThreshold) {
         return 'right';

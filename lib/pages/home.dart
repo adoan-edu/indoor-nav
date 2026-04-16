@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _getInitialInfo() {
-    demos = building1Route1;
+    demos = building1DemoRoutes;
   }
 
   void _startOrContinueRoute(NavigationRoute route) {

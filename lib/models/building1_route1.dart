@@ -17,7 +17,7 @@ Landmark getLandmark(String id) {
       );
 }
 
-final List<NavigationRoute> building1Route1 = [
+final List<NavigationRoute> building1DemoRoutes = [
   NavigationRoute(
     id: 'Route 1',
     title: 'Demo Route 1',
@@ -28,6 +28,14 @@ final List<NavigationRoute> building1Route1 = [
       getLandmark('board_function_room'),
       getLandmark('plant_elevator'),
       getLandmark('elevator_h'),
+    ],
+  ),
+  NavigationRoute(
+    id: 'Route 2',
+    title: 'Demo Route 2',
+    subtitle: 'Node A to Node B',
+    landmarks: [
+
     ],
   ),
 ];
