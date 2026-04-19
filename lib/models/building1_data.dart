@@ -1,8 +1,8 @@
-import 'landmark.dart';
+import 'navigation_entity.dart';
 
-final Map<String, Landmark> building1Landmarks = {
+final Map<String, NavigationEntity> building1Data = {
   // A=2 (Room) in id ABC
-  'room_a': Landmark(
+  'room_a': NavigationEntity(
     id: '201', // A=2 (room), BC=01
     name: 'Storage Room A',
     property: '3x3',
@@ -12,7 +12,7 @@ final Map<String, Landmark> building1Landmarks = {
     x: 1.5,
     y: 7.5,
   ),
-  'room_b': Landmark(
+  'room_b': NavigationEntity(
     id: '202',
     name: 'Storage Room B',
     property: '3x3',
@@ -22,7 +22,7 @@ final Map<String, Landmark> building1Landmarks = {
     x: 1.5,
     y: 3.5,
   ),
-  'room_c': Landmark(
+  'room_c': NavigationEntity(
     id: '203',
     name: 'Office C',
     property: '4x4',
@@ -32,7 +32,7 @@ final Map<String, Landmark> building1Landmarks = {
     x: 9.0,
     y: 4.0,
   ),
-  'room_d': Landmark(
+  'room_d': NavigationEntity(
     id: '204',
     name: 'Office D',
     property: '4x4',
@@ -42,7 +42,7 @@ final Map<String, Landmark> building1Landmarks = {
     x: 14.0,
     y: 4.0,
   ),
-  'room_e': Landmark(
+  'room_e': NavigationEntity(
     id: '205',
     name: 'Restroom E',
     property: '3x6',
@@ -52,7 +52,7 @@ final Map<String, Landmark> building1Landmarks = {
     x: 1.5,
     y: -5.0,
   ),
-  'room_f': Landmark(
+  'room_f': NavigationEntity(
     id: '206',
     name: 'Function Room F',
     property: '9x5',
@@ -64,7 +64,7 @@ final Map<String, Landmark> building1Landmarks = {
   ),
 
   // A=3 (landmark) in id ABC
-  'stairs_g': Landmark(
+  'stairs_g': NavigationEntity(
     id: '301', // A=3 (multi-level access), BC=01
     name: 'Stairway G',
     property: '3x6',
@@ -74,7 +74,7 @@ final Map<String, Landmark> building1Landmarks = {
     x: 10.0,
     y: -12.5,
   ),
-  'elevator_h': Landmark(
+  'elevator_h': NavigationEntity(
     id: '302',
     name: 'Elevator H',
     property: '2x2',
@@ -84,7 +84,7 @@ final Map<String, Landmark> building1Landmarks = {
     x: 15.0,
     y: -2.0,
   ),
-  'plant_elevator': Landmark(
+  'plant_elevator': NavigationEntity(
     id: '303',
     name: 'plant in brown basket',
     property: 'tall, green',
@@ -94,7 +94,7 @@ final Map<String, Landmark> building1Landmarks = {
     x: 13,
     y: -9.8,
   ),
-  'board_function_room': Landmark(
+  'board_function_room': NavigationEntity(
     id: '304',
     name: 'Research News Board',
     property: 'brown, wooden',
@@ -104,7 +104,7 @@ final Map<String, Landmark> building1Landmarks = {
     x: 5.9,
     y: -7,
   ),
-  'fountain_restroom': Landmark(
+  'fountain_restroom': NavigationEntity(
     id: '305',
     name: 'drink fountain',
     property: 'rectangular',
@@ -114,7 +114,7 @@ final Map<String, Landmark> building1Landmarks = {
     x: 4,
     y: -1,
   ),
-  'painting_office_storage': Landmark(
+  'painting_office_storage': NavigationEntity(
     id: '306',
     name: 'painting',
     property: 'vibrant, patterned',
@@ -124,7 +124,7 @@ final Map<String, Landmark> building1Landmarks = {
     x: 6,
     y: 4.5,
   ),
-  'chair_corner_storage': Landmark(
+  'chair_corner_storage': NavigationEntity(
     id: '307',
     name: 'chair',
     property: 'red, soft',
@@ -136,7 +136,7 @@ final Map<String, Landmark> building1Landmarks = {
   ),
 
   // A=1 (nodes) in id ABC
-  'start': Landmark(
+  'start': NavigationEntity(
     id: '100',
     name: 'start',
     property: '',
@@ -146,7 +146,7 @@ final Map<String, Landmark> building1Landmarks = {
     x: 0,
     y: 0,
   ),
-  'corner_4_9': Landmark(
+  'corner_4_9': NavigationEntity(
     id: '101', // A=1 (node), BC=01 (first node excluding the reference point)
     name: 'corner',
     property: '',
@@ -156,7 +156,7 @@ final Map<String, Landmark> building1Landmarks = {
     x: 4.0,
     y: 9.0,
   ),
-  'junc_5_0': Landmark(
+  'junc_5_0': NavigationEntity(
     id: '102',
     name: '4-way intersection',
     property: '',
@@ -166,7 +166,7 @@ final Map<String, Landmark> building1Landmarks = {
     x: 5.0,
     y: 0.0,
   ),
-  'junc_5_neg9': Landmark(
+  'junc_5_neg9': NavigationEntity(
     id: '103',
     name: 'T-junction',
     property: '',
@@ -176,7 +176,7 @@ final Map<String, Landmark> building1Landmarks = {
     x: 5.0,
     y: -9.0,
   ),
-  'node_5_3p5': Landmark(
+  'node_5_3p5': NavigationEntity(
     id: '104',
     name: 'to Storage Room B',
     property: '',
@@ -186,7 +186,7 @@ final Map<String, Landmark> building1Landmarks = {
     x: 5.0,
     y: 3.5,
   ),
-  'node_11p5_8': Landmark(
+  'node_11p5_8': NavigationEntity(
     id: '105',
     name: 'bisector behind Room C and D',
     property: '',
@@ -196,7 +196,7 @@ final Map<String, Landmark> building1Landmarks = {
     x: 11.5,
     y: 8,
   ),
-  'node_9p5_0': Landmark(
+  'node_9p5_0': NavigationEntity(
     id: '106',
     name: 'to Office C',
     property: '',
@@ -206,7 +206,7 @@ final Map<String, Landmark> building1Landmarks = {
     x: 9.5,
     y: 0,
   ),
-  'node_14p5_0': Landmark(
+  'node_14p5_0': NavigationEntity(
     id: '107',
     name: 'to Office D',
     property: '',
@@ -216,7 +216,7 @@ final Map<String, Landmark> building1Landmarks = {
     x: 14.5,
     y: 0,
   ),
-  'node_5_neg3p5': Landmark(
+  'node_5_neg3p5': NavigationEntity(
     id: '108',
     name: 'to Restroom E',
     property: '',
@@ -226,7 +226,7 @@ final Map<String, Landmark> building1Landmarks = {
     x: 5,
     y: -3.5,
   ),
-  'node_7p5_neg9': Landmark(
+  'node_7p5_neg9': NavigationEntity(
     id: '109',
     name: 'to Stairway G',
     property: '',
@@ -236,7 +236,7 @@ final Map<String, Landmark> building1Landmarks = {
     x: 7.5,
     y: -9,
   ),
-  'node_15_neg9': Landmark(
+  'node_15_neg9': NavigationEntity(
     id: '110',
     name: 'to Elevator H',
     property: '',

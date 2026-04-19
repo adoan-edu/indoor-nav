@@ -1,16 +1,16 @@
-import 'landmark.dart';
+import 'navigation_entity.dart';
 
 class NavigationRoute { // Class name 'Route' is taken by flutter's in-built screen navigation system
   final String id;
   final String title;
   final String subtitle;
-  final List<Landmark> landmarks;
+  final List<NavigationEntity> data;
 
 
   const NavigationRoute({
     required this.id,
     required this.title, 
     required this.subtitle,
-    required this.landmarks,
+    required this.data,
   });
 }

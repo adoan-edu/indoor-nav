@@ -1,8 +1,8 @@
-import '../models/landmark.dart';
+import '../models/navigation_entity.dart';
 
 // Contains the algorithm that translates the mathematics and logic from NavigationLogic into natural language i.e. sentence builder
 class DescriptionGenerator {
-  String generate(Landmark landmark, String action) {
+  String generate(NavigationEntity landmark, String action) {
     // Check for an allocation of the end of the route
     if (landmark.type == 'destination') {
       return "You are arriving at ${landmark.name}.";

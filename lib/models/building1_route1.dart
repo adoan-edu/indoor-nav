@@ -1,11 +1,11 @@
 import 'route.dart';
-import 'landmark.dart';
+import 'navigation_entity.dart';
 import 'building1_data.dart';
 
 // Method for retrieving Landmark data from the Master Map of the Indoor Environment
-Landmark getLandmark(String id) {
-  return building1Landmarks[id] ??
-      Landmark(
+NavigationEntity getData(String id) {
+  return building1Data[id] ??
+      NavigationEntity(
         id: 'err',
         name: '<error> landmark not found',
         x: 0,
@@ -22,19 +22,19 @@ final List<NavigationRoute> building1DemoRoutes = [
     id: 'Route 1',
     title: 'Demo Route 1',
     subtitle: 'Entrance to Elevator H',
-    landmarks: [
-      getLandmark('start'),
-      getLandmark('chair_corner_storage'),
-      getLandmark('board_function_room'),
-      getLandmark('plant_elevator'),
-      getLandmark('elevator_h'),
+    data: [
+      getData('start'),
+      getData('chair_corner_storage'),
+      getData('board_function_room'),
+      getData('plant_elevator'),
+      getData('elevator_h'),
     ],
   ),
   NavigationRoute(
     id: 'Route 2',
     title: 'Demo Route 2',
     subtitle: 'Node A to Node B',
-    landmarks: [
+    data: [
 
     ],
   ),
