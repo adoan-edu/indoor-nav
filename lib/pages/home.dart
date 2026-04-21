@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:indoor_nav/models/route.dart';
-import 'package:indoor_nav/models/landmark.dart';
+import 'package:indoor_nav/models/navigation_entity.dart';
 import 'package:indoor_nav/utils/description_generator.dart';
 import 'package:indoor_nav/utils/navigation_logic.dart';
 import 'package:indoor_nav/models/building1_route1.dart';
@@ -64,10 +64,10 @@ class _HomePageState extends State<HomePage> {
   void _startOrContinueRoute(NavigationRoute route) {
     _selectedRoute = route;
 
-    final String destinationName = route.landmarks.last.name;
+    final String destinationName = route.data.last.name;
 
     // Bound check
-    if (_currentLandmarkIndex >= route.landmarks.length - 1) {
+    if (_currentLandmarkIndex >= route.data.length - 1) {
       _setInstruction(
         "You are arriving at $destinationName.",
         "You have arrived at $destinationName.",
@@ -81,10 +81,10 @@ class _HomePageState extends State<HomePage> {
     }
 
     // Get current landmark in the route and find action associated in the data
-    Landmark currentLandmark = route.landmarks[_currentLandmarkIndex];
-    Landmark nextLandmark = route.landmarks[_currentLandmarkIndex + 1];
+    NavigationEntity currentLandmark = route.data[_currentLandmarkIndex];
+    NavigationEntity nextLandmark = route.data[_currentLandmarkIndex + 1];
     bool isDestination =
-        (_currentLandmarkIndex + 1) == route.landmarks.length - 1;
+        (_currentLandmarkIndex + 1) == route.data.length - 1;
     String action = _navigationLogic.calculateAction(
       currentLandmark,
       nextLandmark,
