@@ -97,6 +97,7 @@ class _HomePageState extends State<HomePage> {
     String instructionDistanceBased;
     String instructionLandmarkGuided;
 
+    updateNavigation;
     if (isDestination) {
       instructionDistanceBased =
           "In ${distance.round()}m, your destination, $destinationName, is on your $action.";

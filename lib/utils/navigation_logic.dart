@@ -48,20 +48,6 @@ void updateNavigation(int currentIndex, List<String> route, Map<String, Navigati
     num theta = atan(
       (yB - yA).abs() / (xB - xA).abs(),
     ); // Angle between the x and y components that separate the current NavigationEntity and the next NavigationEntity
-    double angleThreshold = (3 / 4) * pi;
+    double angleThreshold = (1 / 2) * pi;
 
-    // Compare the current heading with the new heading and update if there is a change
-    if (currentHeading == theta) {
-      return 'head towards';
-    } else {
-      currentHeading = theta;
-      if (0 < theta && theta < angleThreshold) {
-        return 'right';
-      }
-      if (-angleThreshold < theta && theta < 0) {
-        return 'left';
-      }
-    }
-    return 'continue forward';
-  }
 }
