@@ -35,7 +35,7 @@ class NavigationLogic {
         next: null,
         distance: 0.0,
         action: "end",
-        landmarks: findLinkLandmarks(nodeB.id, nodeC.id, masterData),
+        landmarks: findLandmarksOnLink(nodeA.id, nodeB.id, masterData),
       );
     }
 
@@ -45,7 +45,7 @@ class NavigationLogic {
         next: nodeC,
         distance: calculateDistance(nodeB, nodeC),
         action: "start",
-        landmarks: findLinkLandmarks(nodeB.id, nodeC.id, masterData),
+        landmarks: findLandmarksOnLink(nodeB.id, nodeC.id, masterData),
       );
     }
 
@@ -54,12 +54,24 @@ class NavigationLogic {
       next: nodeC,
       distance: calculateDistance(nodeB, nodeC),
       action: calculateAction(nodeA, nodeB, nodeC),
-      landmarks: findLandmarksForLink(nodeB.id, nodeC.id, masterData),
+      landmarks: findLandmarksOnLink(nodeB.id, nodeC.id, masterData),
     );
   }
 }
 
-void findLandmarksForLink() {}
+List<NavigationEntity> findLandmarksOnLink(
+  String fromId,
+  String toId,
+  Map<String, NavigationEntity> masterData,
+) {
+  List<NavigationEntity> landmarks = [];
+  for (NavigationEntity entity in masterData.values) {
+    if (entity.isNode == false && entity.attachedToLink == "$fromId-$toId") {
+      landmarks.add(entity);
+    }
+  }
+  return landmarks;
+}
 
 // Get action from route data
 double calculateDistance(
@@ -79,13 +91,20 @@ String calculateAction(
   NavigationEntity currentNode,
   NavigationEntity nextNode,
 ) {
-  final double xA = currentNode.x;
-  final double yA = currentNode.y;
-  final double xB = nextNode.x;
-  final double yB = nextNode.y;
+  final double xA = previousNode.x;
+  final double yA = previousNode.y;
+  final double xB = currentNode.x;
+  final double yB = currentNode.y;
+  final double xC = nextNode.x;
+  final double yC = nextNode.y;
 
   num theta = atan(
     (yB - yA).abs() / (xB - xA).abs(),
-  ); // Angle between the x and y components that separate the current NavigationEntity and the next NavigationEntity
+  ); // theta = angle between the x and y components that separate the previous NavigationEntity and the current NavigationEntity
+  num phi = atan(
+    (yC - yB).abs() / (xC - xB).abs(),
+  ); // theta = angle between the x and y components that separate the previous NavigationEntity and the current NavigationEntity
+
+  if (theta == phi) {}
   double angleThreshold = (1 / 2) * pi;
 }
