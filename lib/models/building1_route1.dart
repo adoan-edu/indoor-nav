@@ -1,4 +1,4 @@
-import 'route.dart';
+import 'navigation_route.dart';
 import 'navigation_entity.dart';
 import 'building1_data.dart';
 

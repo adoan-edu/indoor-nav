@@ -27,9 +27,8 @@ class NavigationLogic {
     if (nodeB == null) {
       throw Exception("Error: Node $idB not found in Master Data");
     }
-
     // Bound check
-    if (nodeC == null) {
+    else if (nodeC == null && nodeA != null) {
       return NavigationPacket(
         current: nodeB,
         next: null,
@@ -37,25 +36,23 @@ class NavigationLogic {
         action: "end",
         landmarks: findLandmarksOnLink(nodeA.id, nodeB.id, masterData),
       );
-    }
-
-    if (nodeA == null) {
+    } else if (nodeA == null) {
       return NavigationPacket(
         current: nodeB,
-        next: nodeC,
+        next: nodeC!,
         distance: calculateDistance(nodeB, nodeC),
         action: "start",
         landmarks: findLandmarksOnLink(nodeB.id, nodeC.id, masterData),
       );
+    } else {
+      return NavigationPacket(
+        current: nodeB,
+        next: nodeC!,
+        distance: calculateDistance(nodeB, nodeC),
+        action: calculateAction(nodeA, nodeB, nodeC),
+        landmarks: findLandmarksOnLink(nodeB.id, nodeC.id, masterData),
+      );
     }
-
-    return NavigationPacket(
-      current: nodeB,
-      next: nodeC,
-      distance: calculateDistance(nodeB, nodeC),
-      action: calculateAction(nodeA, nodeB, nodeC),
-      landmarks: findLandmarksOnLink(nodeB.id, nodeC.id, masterData),
-    );
   }
 }
 
@@ -78,12 +75,20 @@ double calculateDistance(
   NavigationEntity currentNode,
   NavigationEntity nextNode,
 ) {
-  final double xO = currentNode.x;
-  final double yO = currentNode.y;
-  final double xN = nextNode.x;
-  final double yN = nextNode.y;
+  double dy = nextNode.y - currentNode.y;
+  double dx = nextNode.x - currentNode.x;
 
-  return (xN - xO).abs() + (yN - yO).abs(); // Node Link Distance
+  return dx.abs() + dy.abs(); // Node Link Distance
+}
+
+double calculateHeading(
+  NavigationEntity currentNode,
+  NavigationEntity nextNode,
+) {
+  double dy = nextNode.y - currentNode.y;
+  double dx = nextNode.x - currentNode.x;
+
+  return atan2(dy, dx);
 }
 
 String calculateAction(
@@ -91,20 +96,17 @@ String calculateAction(
   NavigationEntity currentNode,
   NavigationEntity nextNode,
 ) {
-  final double xA = previousNode.x;
-  final double yA = previousNode.y;
-  final double xB = currentNode.x;
-  final double yB = currentNode.y;
-  final double xC = nextNode.x;
-  final double yC = nextNode.y;
+  num theta = calculateHeading(previousNode, currentNode);
+  num phi = calculateHeading(currentNode, nextNode);
 
-  num theta = atan(
-    (yB - yA).abs() / (xB - xA).abs(),
-  ); // theta = angle between the x and y components that separate the previous NavigationEntity and the current NavigationEntity
-  num phi = atan(
-    (yC - yB).abs() / (xC - xB).abs(),
-  ); // theta = angle between the x and y components that separate the previous NavigationEntity and the current NavigationEntity
-
-  if (theta == phi) {}
-  double angleThreshold = (1 / 2) * pi;
+  if (theta == phi) {
+    return "straight";
+  }
+  if (theta - phi == pi / 2 || theta - pi == -3 * pi / 2) {
+    return "left";
+  }
+  if (theta - phi == 3 * pi / 2 || theta - pi == -3 * pi / 2) {
+    return "right";
+  }
+  throw Exception("error - check angle logic in navigation_logic.dart");
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
-import 'package:indoor_nav/models/route.dart';
+import 'package:indoor_nav/models/navigation_route.dart';
 import 'package:indoor_nav/models/navigation_entity.dart';
 import 'package:indoor_nav/utils/description_generator.dart';
 import 'package:indoor_nav/utils/navigation_logic.dart';
@@ -17,8 +17,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final FlutterTts _flutterTts = FlutterTts();
   final DescriptionGenerator _generator = DescriptionGenerator();
-  final NavigationLogic _navigationLogic =
-      NavigationLogic(); // Used in _startOrContinueRoute
+  final NavigationLogic _navigationLogic = NavigationLogic();
 
   String _currentInstructionLandmarkGuided = "Select a demo route to begin.";
   String _currentInstructionDistanceBased = "Select a demo route to begin.";
@@ -61,10 +60,10 @@ class _HomePageState extends State<HomePage> {
     demos = building1DemoRoutes;
   }
 
-  void _startOrContinueRoute(NavigationRoute route) {
+  void _startOrContinueRoute(NavigationRoute route, Map<String, NavigationEntity> masterData) {
     _selectedRoute = route;
 
-    final String destinationName = route.data.last.name;
+    _navigationLogic.updateNavigation(currentIndex, route, masterData)
 
     // Bound check
     if (_currentLandmarkIndex >= route.data.length - 1) {
@@ -83,8 +82,7 @@ class _HomePageState extends State<HomePage> {
     // Get current landmark in the route and find action associated in the data
     NavigationEntity currentLandmark = route.data[_currentLandmarkIndex];
     NavigationEntity nextLandmark = route.data[_currentLandmarkIndex + 1];
-    bool isDestination =
-        (_currentLandmarkIndex + 1) == route.data.length - 1;
+    bool isDestination = (_currentLandmarkIndex + 1) == route.data.length - 1;
     String action = _navigationLogic.calculateAction(
       currentLandmark,
       nextLandmark,
