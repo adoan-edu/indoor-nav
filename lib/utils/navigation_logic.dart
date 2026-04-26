@@ -1,3 +1,5 @@
+import 'package:indoor_nav/models/navigation_route.dart';
+
 import '../models/navigation_entity.dart';
 import '../models/navigation_packet.dart';
 import 'dart:math';
@@ -6,29 +8,32 @@ import 'dart:math';
 class NavigationLogic {
   num currentHeading = 0;
 
+  // Returns a packet containing instruction data captured from the current state in the route
   NavigationPacket updateNavigation(
     int currentIndex,
-    List<String> route,
+    NavigationRoute route,
     Map<String, NavigationEntity> masterData,
   ) {
-    // Get IDs from the route
+    // Get IDs from the route.data
     // node A->B = incoming link, node B->C = outgoing link
-    String idA = (currentIndex > 0) ? route[currentIndex - 1] : "";
-    String idB = route[currentIndex];
-    String idC = (currentIndex < route.length - 1)
-        ? route[currentIndex + 1]
+    String idA = (currentIndex > 0) ? route.data[currentIndex - 1].id : "";
+    String idB = route.data[currentIndex].id;
+    String idC = (currentIndex < route.data.length - 1)
+        ? route.data[currentIndex + 1].id
         : "";
 
-    NavigationEntity? nodeA = masterData[idA];
-    NavigationEntity? nodeB = masterData[idB];
-    NavigationEntity? nodeC = masterData[idC];
+    // Assign nodes using currentIndex, checking for boundary (null)
+    NavigationEntity? nodeA = (currentIndex > 0)
+        ? route.data[currentIndex - 1]
+        : null;
+    NavigationEntity? nodeB =
+        route.data[currentIndex];
+    NavigationEntity? nodeC = (currentIndex < route.data.length - 1)
+        ? route.data[currentIndex + 1]
+        : null;
 
-    // Data check
-    if (nodeB == null) {
-      throw Exception("Error: Node $idB not found in Master Data");
-    }
     // Bound check
-    else if (nodeC == null && nodeA != null) {
+    if (nodeC == null && nodeA != null) {
       return NavigationPacket(
         current: nodeB,
         next: null,
@@ -56,6 +61,7 @@ class NavigationLogic {
   }
 }
 
+// Return list of landmarks attached to the link between two nodes
 List<NavigationEntity> findLandmarksOnLink(
   String fromId,
   String toId,
@@ -70,7 +76,7 @@ List<NavigationEntity> findLandmarksOnLink(
   return landmarks;
 }
 
-// Get action from route data
+// Get action from route.data.id data
 double calculateDistance(
   NavigationEntity currentNode,
   NavigationEntity nextNode,

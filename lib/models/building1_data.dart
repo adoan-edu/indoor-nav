@@ -139,9 +139,6 @@ final Map<String, NavigationEntity> building1Data = {
   'start': NavigationEntity(
     id: '100',
     name: 'start',
-    property: '',
-    type: '',
-    sensoryType: '',
     isNode: true,
     x: 0,
     y: 0,

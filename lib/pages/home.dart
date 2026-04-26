@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:indoor_nav/models/navigation_packet.dart';
 import 'package:indoor_nav/models/navigation_route.dart';
 import 'package:indoor_nav/models/navigation_entity.dart';
 import 'package:indoor_nav/utils/description_generator.dart';
 import 'package:indoor_nav/utils/navigation_logic.dart';
+import 'package:indoor_nav/models/building1_data.dart';
 import 'package:indoor_nav/models/building1_route1.dart';
 
 class HomePage extends StatefulWidget {
@@ -19,14 +21,15 @@ class _HomePageState extends State<HomePage> {
   final DescriptionGenerator _generator = DescriptionGenerator();
   final NavigationLogic _navigationLogic = NavigationLogic();
 
-  String _currentInstructionLandmarkGuided = "Select a demo route to begin.";
-  String _currentInstructionDistanceBased = "Select a demo route to begin.";
-  int _currentLandmarkIndex = 0;
-  double _speechRate = 0.5; // Default rate
-  double _speechPitch = 1.0; // Default pitch
+  String _currentInstructionPacket = "Select a demo route to begin.";
+  String _currentInstructionGenerated = "Select a demo route to begin.";
+  int _currentIndex = 0;
+  double _speechRate = 1.0; // Default rate
+  double _speechPitch = 1.5; // Default pitch
   bool _isRouteComplete = false;
   NavigationRoute? _selectedRoute;
   List<NavigationRoute> demos = [];
+  Map<String, NavigationEntity> buildingData = {};
   IconData _currentActionIcon = Icons.explore_outlined; // Default compass icon
 
   @override
@@ -45,7 +48,7 @@ class _HomePageState extends State<HomePage> {
           children: [
             _routeSelection(),
             SizedBox(height: 40),
-            _navigationInstructions(),
+            _navigationPacket(),
             SizedBox(height: 40),
             _landmarkInstructions(),
             _nextStepButton(),
@@ -57,81 +60,76 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _getInitialInfo() {
+    // Import Data of the Indoor Environment and the List of Demo Routes (Demo Route A and Demo Route B)
     demos = building1DemoRoutes;
+    buildingData = building1Data;
   }
 
-  void _startOrContinueRoute(NavigationRoute route, Map<String, NavigationEntity> masterData) {
-    _selectedRoute = route;
+  void _startOrContinueRoute(
+    NavigationRoute route,
+    Map<String, NavigationEntity> masterData,
+  ) {
+    NavigationPacket currentPacket;
 
-    _navigationLogic.updateNavigation(currentIndex, route, masterData)
+    // Generate navigation packet containing instruction data captured from the current state in the route
+    // NavigationPacket({current, next, distance, action, landmarks (attached)})
+    currentPacket = _navigationLogic.updateNavigation(
+      _currentIndex,
+      route,
+      masterData,
+    );
 
     // Bound check
-    if (_currentLandmarkIndex >= route.data.length - 1) {
-      _setInstruction(
-        "You are arriving at $destinationName.",
-        "You have arrived at $destinationName.",
-      );
+    if (_currentIndex >= route.data.length - 1) {
       setState(() {
         _currentActionIcon = Icons.check_circle;
         _isRouteComplete = true; // To stop the navigation and reset the route
       });
-      _currentLandmarkIndex = 0;
+      _currentIndex = 0;
       return;
     }
 
-    // Get current landmark in the route and find action associated in the data
-    NavigationEntity currentLandmark = route.data[_currentLandmarkIndex];
-    NavigationEntity nextLandmark = route.data[_currentLandmarkIndex + 1];
-    bool isDestination = (_currentLandmarkIndex + 1) == route.data.length - 1;
-    String action = _navigationLogic.calculateAction(
-      currentLandmark,
-      nextLandmark,
-    );
-    double distance = _navigationLogic.calculateDistance(
-      currentLandmark,
-      nextLandmark,
-    );
+    String instructionPacket;
+    String instructionGenerated;
 
-    String instructionDistanceBased;
-    String instructionLandmarkGuided;
-
-    updateNavigation;
-    if (isDestination) {
-      instructionDistanceBased =
-          "In ${distance.round()}m, your destination, $destinationName, is on your $action.";
-      instructionLandmarkGuided =
-          "In ${distance.round()}m, your destination, $destinationName, is on your $action.";
+    // Print out the instruction packet
+    instructionPacket =
+        "${currentPacket.current.id} "
+        "${currentPacket.next?.id} " 
+        "${currentPacket.distance}m "
+        "${currentPacket.action} "
+        "${currentPacket.landmarks.map((entity) => entity.id).join('\n')}";
+    // Utilise description generator
+    if (currentPacket.action == 'end') {
+      instructionGenerated =
+          "In ${currentPacket.distance.round()}m, your destination, ${currentPacket.current}.";
     } else {
-      instructionDistanceBased =
-          "Head forwards ${distance.round()}m and turn $action.";
-      // Utilise description generator for this step
-      instructionLandmarkGuided =
-          "Head forwards ${distance.round()}m ${_generator.generate(nextLandmark, action)}";
+      instructionGenerated = _generator.generate(
+        currentPacket.next!,
+        currentPacket.action,
+      );
     }
 
     setState(() {
       _currentActionIcon = _getIconForAction(
-        action,
+        currentPacket.action,
       ); // Update Icon for the Action type
       _isRouteComplete = false;
     });
     // Update state and output TTS
-    _setInstruction(instructionDistanceBased, instructionLandmarkGuided);
-    _currentLandmarkIndex++;
+    _setInstruction(instructionPacket, instructionGenerated);
+    _currentIndex++;
   }
 
-  void _setInstruction(
-    String instructionDistanceBased,
-    instructionLandmarkGuided,
-  ) {
+  void _setInstruction(String instructionPacket, instructionGenerated) {
     // Updates the current instruction based on the instruction generated for the landmark
     setState(() {
-      _currentInstructionDistanceBased = instructionDistanceBased;
-      _currentInstructionLandmarkGuided = instructionLandmarkGuided;
+      _currentInstructionPacket = instructionPacket;
+      _currentInstructionGenerated = instructionGenerated;
     });
     _flutterTts.setSpeechRate(_speechRate);
     _flutterTts.setPitch(_speechPitch);
-    _flutterTts.speak(instructionLandmarkGuided);
+    _flutterTts.speak(instructionGenerated);
   }
 
   IconData _getIconForAction(String action) {
@@ -213,9 +211,10 @@ class _HomePageState extends State<HomePage> {
                     setState(() {
                       _selectedRoute = demo; // Assign demo
                     });
-                    _currentLandmarkIndex = 0; // Go to beginning of demo
+                    _currentIndex = 0; // Go to beginning of demo
                     _startOrContinueRoute(
                       demo,
+                      buildingData,
                     ); // Call instruction generating function
                   },
                 ),
@@ -263,7 +262,7 @@ class _HomePageState extends State<HomePage> {
               Icon(_currentActionIcon, size: 40, color: Colors.white),
               SizedBox(height: 10),
               Text(
-                _currentInstructionLandmarkGuided,
+                _currentInstructionGenerated,
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 16.0, color: Colors.white),
               ),
@@ -274,8 +273,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Column _navigationInstructions() {
-    // Displays original navigation instructions
+  Column _navigationPacket() {
+    // Displays navigation packet
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -283,7 +282,7 @@ class _HomePageState extends State<HomePage> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
-            'Original Navigation Instructions',
+            'Navigation Packet',
             style: TextStyle(
               color: Colors.black,
               fontSize: 18,
@@ -293,7 +292,7 @@ class _HomePageState extends State<HomePage> {
         ),
         // Spacing Between Title Text and Field
         SizedBox(height: 10),
-        // Navigation Instructions Field
+        // Navigation Packet Field
         Container(
           // Background/Text Box Formatting
           height: 150,
@@ -303,12 +302,12 @@ class _HomePageState extends State<HomePage> {
             color: Colors.blueGrey,
             border: Border.all(color: Colors.black),
           ),
-          // Navigation Instructions Text Formatting
+          // Navigation Packet Text Formatting
           child: Center(
             child: SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Text(
-                _currentInstructionDistanceBased,
+                _currentInstructionPacket,
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 16.0, color: Colors.white),
               ),
@@ -335,6 +334,7 @@ class _HomePageState extends State<HomePage> {
             // Check that a route is selected and has been assigned to _selectedRoute
             _startOrContinueRoute(
               _selectedRoute!,
+              buildingData,
             ); // '!' to pass non-null non-local variables, in this case _selectedRoute is not a local variable and should be non-null
           }
         },
