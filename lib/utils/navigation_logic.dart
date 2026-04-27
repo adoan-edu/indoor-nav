@@ -108,10 +108,10 @@ String calculateAction(
   if (theta == phi) {
     return "straight";
   }
-  if (theta - phi == pi / 2 || theta - pi == -3 * pi / 2) {
-    return "left";
+  if (phi - theta == pi / 2 || phi - theta == -3 * pi / 2) {
+    return "left"; 
   }
-  if (theta - phi == 3 * pi / 2 || theta - pi == -3 * pi / 2) {
+  if (phi - theta == 3 * pi / 2 || phi - theta == -pi / 2) {
     return "right";
   }
   throw Exception("error - check angle logic in navigation_logic.dart");

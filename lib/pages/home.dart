@@ -6,7 +6,7 @@ import 'package:indoor_nav/models/navigation_entity.dart';
 import 'package:indoor_nav/utils/description_generator.dart';
 import 'package:indoor_nav/utils/navigation_logic.dart';
 import 'package:indoor_nav/models/building1_data.dart';
-import 'package:indoor_nav/models/building1_route1.dart';
+import 'package:indoor_nav/models/building1_navigation.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -92,11 +92,11 @@ class _HomePageState extends State<HomePage> {
     String instructionPacket;
     String instructionGenerated;
 
-    // Print out the instruction packet
+    // To print out the instruction packet
     instructionPacket =
         "${currentPacket.current.id} "
         "${currentPacket.next?.id} " 
-        "${currentPacket.distance}m "
+        "${currentPacket.distance} "
         "${currentPacket.action} "
         "${currentPacket.landmarks.map((entity) => entity.id).join('\n')}";
     // Utilise description generator
