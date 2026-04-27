@@ -21,8 +21,8 @@ class _HomePageState extends State<HomePage> {
   final DescriptionGenerator _generator = DescriptionGenerator();
   final NavigationLogic _navigationLogic = NavigationLogic();
 
-  String _currentInstructionPacket = "Select a demo route to begin.";
-  String _currentInstructionGenerated = "Select a demo route to begin.";
+  String _currentInstructionPacket = 'Select a demo route to begin.';
+  String _currentInstructionGenerated = 'Select a demo route to begin.';
   int _currentIndex = 0;
   double _speechRate = 1.0; // Default rate
   double _speechPitch = 1.5; // Default pitch
@@ -79,43 +79,34 @@ class _HomePageState extends State<HomePage> {
       masterData,
     );
 
-    // Bound check
-    if (_currentIndex >= route.data.length - 1) {
-      setState(() {
-        _currentActionIcon = Icons.check_circle;
-        _isRouteComplete = true; // To stop the navigation and reset the route
-      });
-      _currentIndex = 0;
-      return;
-    }
-
     String instructionPacket;
     String instructionGenerated;
 
     // To print out the instruction packet
     instructionPacket =
-        "${currentPacket.current.id} "
-        "${currentPacket.next?.id} " 
-        "${currentPacket.distance} "
-        "${currentPacket.action} "
-        "${currentPacket.landmarks.map((entity) => entity.id).join('\n')}";
-    // Utilise description generator
+        '${currentPacket.current.id}'
+        ' ${currentPacket.next?.id}'
+        ' ${currentPacket.distance}'
+        ' ${currentPacket.action}'
+        ' ${currentPacket.landmarks.map((entity) => entity.id).join('\n')}';
     if (currentPacket.action == 'end') {
-      instructionGenerated =
-          "In ${currentPacket.distance.round()}m, your destination, ${currentPacket.current}.";
-    } else {
-      instructionGenerated = _generator.generate(
-        currentPacket.next!,
-        currentPacket.action,
-      );
+      setState(() {
+        _currentActionIcon = Icons.check_circle;
+        _isRouteComplete = true; // To stop the navigation and reset the route
+        instructionGenerated = _generator.generate(currentPacket);
+        _setInstruction(instructionPacket, instructionGenerated);
+        _currentIndex = 0;
+      });
+      return; // Complete the state update and exit+restart
     }
-
     setState(() {
       _currentActionIcon = _getIconForAction(
         currentPacket.action,
       ); // Update Icon for the Action type
       _isRouteComplete = false;
     });
+    // Utilise description generator
+    instructionGenerated = _generator.generate(currentPacket);
     // Update state and output TTS
     _setInstruction(instructionPacket, instructionGenerated);
     _currentIndex++;
@@ -328,7 +319,7 @@ class _HomePageState extends State<HomePage> {
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           textStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
         ),
-        child: Text(_isRouteComplete ? "Reset Route" : "Next Step"),
+        child: Text(_isRouteComplete ? 'Reset Route' : 'Next Step'),
         onPressed: () {
           if (_selectedRoute != null) {
             // Check that a route is selected and has been assigned to _selectedRoute
@@ -351,7 +342,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           // Title Text Formatting
           Text(
-            "Voice Personalisation",
+            'Voice Personalisation',
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
           ),
           // Speech Rate Slider Formatting
@@ -367,7 +358,7 @@ class _HomePageState extends State<HomePage> {
                   max: 1.0,
                   divisions: 100,
                   label:
-                      "Rate: ${(_speechRate * 100).toInt()}%", // Rounding to int
+                      'Rate: ${(_speechRate * 100).toInt()}%', // Rounding to int
                   // Set _speechRate to Slider Value
                   onChanged: (double value) {
                     setState(() {
@@ -376,7 +367,7 @@ class _HomePageState extends State<HomePage> {
                   },
                 ),
               ),
-              Text("Rate"),
+              Text('Rate'),
             ],
           ),
           // Pitch Slider Formatting
@@ -392,7 +383,7 @@ class _HomePageState extends State<HomePage> {
                   max: 2.0,
                   divisions: 15,
                   label:
-                      "Pitch: ${_speechPitch.toStringAsFixed(1)}", // Round to 1 d.p.
+                      'Pitch: ${_speechPitch.toStringAsFixed(1)}', // Round to 1 d.p.
                   // Set _speechPitch to Slider Value
                   onChanged: (double value) {
                     setState(() {
@@ -401,7 +392,7 @@ class _HomePageState extends State<HomePage> {
                   },
                 ),
               ),
-              Text("Pitch"),
+              Text('Pitch'),
             ],
           ),
         ],

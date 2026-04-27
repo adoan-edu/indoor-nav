@@ -17,6 +17,7 @@ NavigationEntity getData(String key) {
       );
 }
 
+// Note: this method can become the cause of long load times due to iterated search across the entire map
 NavigationEntity findById(
   String targetId,
   Map<String, NavigationEntity> masterData,
@@ -60,6 +61,7 @@ final List<NavigationRoute> building1DemoRoutes = [
     title: 'Demo Route 2',
     subtitle: 'Node A to Node B',
     data: getRoute([
+      // Note: the use of the 'getRoute' method can be the cause of long load times due to incorporation of 'findByID' method which is not optimised
       '901',
       '902',
       '903',

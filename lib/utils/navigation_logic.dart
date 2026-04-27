@@ -16,13 +16,13 @@ class NavigationLogic {
   ) {
     // Get IDs from the route.data
     // node A->B = incoming link, node B->C = outgoing link
-    String idA = (currentIndex > 0) ? route.data[currentIndex - 1].id : "";
+    String idA = (currentIndex > 0) ? route.data[currentIndex - 1].id : '';
     String idB = route.data[currentIndex].id;
     String idC = (currentIndex < route.data.length - 1)
         ? route.data[currentIndex + 1].id
-        : "";
+        : '';
 
-    // Assign nodes using currentIndex, checking for boundary (null)
+    // Assign nodes using currentIndex, checking for nulls at boundaries
     NavigationEntity? nodeA = (currentIndex > 0)
         ? route.data[currentIndex - 1]
         : null;
@@ -38,7 +38,7 @@ class NavigationLogic {
         current: nodeB,
         next: null,
         distance: 0.0,
-        action: "end",
+        action: 'end',
         landmarks: findLandmarksOnLink(nodeA.id, nodeB.id, masterData),
       );
     } else if (nodeA == null) {
@@ -46,7 +46,7 @@ class NavigationLogic {
         current: nodeB,
         next: nodeC!,
         distance: calculateDistance(nodeB, nodeC),
-        action: "start",
+        action: 'start',
         landmarks: findLandmarksOnLink(nodeB.id, nodeC.id, masterData),
       );
     } else {
@@ -69,7 +69,7 @@ List<NavigationEntity> findLandmarksOnLink(
 ) {
   List<NavigationEntity> landmarks = [];
   for (NavigationEntity entity in masterData.values) {
-    if (entity.isNode == false && entity.attachedToLink == "$fromId-$toId") {
+    if (entity.isNode == false && entity.attachedToLink == '$fromId-$toId') {
       landmarks.add(entity);
     }
   }
@@ -106,13 +106,13 @@ String calculateAction(
   num phi = calculateHeading(currentNode, nextNode);
 
   if (theta == phi) {
-    return "straight";
+    return 'straight';
   }
   if (phi - theta == pi / 2 || phi - theta == -3 * pi / 2) {
-    return "left"; 
+    return 'left'; 
   }
   if (phi - theta == 3 * pi / 2 || phi - theta == -pi / 2) {
-    return "right";
+    return 'right';
   }
-  throw Exception("error - check angle logic in navigation_logic.dart");
+  throw Exception('error - check angle logic in navigation_logic.dart');
 }

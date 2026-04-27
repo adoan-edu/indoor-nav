@@ -1,20 +1,40 @@
 import '../models/navigation_entity.dart';
+import '../models/navigation_packet.dart';
 
 // Contains the algorithm that translates the mathematics and logic from NavigationLogic into natural language i.e. sentence builder
 class DescriptionGenerator {
-  String generate(NavigationEntity landmark, String action) {
+  String generate(NavigationPacket currentPacket) {
     // Check for an allocation of the end of the route
-    if (landmark.type == 'destination') {
-      return "You are arriving at ${landmark.name}.";
-    }
-    // Rules for sensory types
-    if (landmark.sensoryType == 'auditory') {
-      return "At a ${landmark.property} ${landmark.type}, turn $action.";
-    } else if (landmark.sensoryType == 'tactile') {
-      return "There is a ${landmark.property} ${landmark.type} ahead. Turn $action when you can feel it";
+
+    String instruction;
+    NavigationEntity currentEntity = currentPacket.current;
+    double distance = currentPacket.distance;
+    String action = currentPacket.action;
+    List<NavigationEntity> landmarks =
+        currentPacket.landmarks; // landmarks attached to node link
+    String straightInstruction = 'Continue straight for ${distance.toInt()} metres.';
+
+    if (action == 'start') {
+      instruction = 'Head forwards for ${distance.toInt()} metres.';
+    } else if (action == 'end' && currentEntity.name == '') {
+      return 'You have arrived at your destination.';
+    } else if (action == 'end' && currentEntity.name != '') {
+      return 'You have arrived at your destination, ${currentEntity.name}.';
+    } else if (action == 'straight') {
+      instruction = straightInstruction;
+    } else if (action == 'left') {
+      instruction = 'Turn left and ${straightInstruction.toLowerCase()}';
+    } else if (action == 'right') {
+      instruction = 'Turn right and ${straightInstruction.toLowerCase()}';
     } else {
-      // Default visual/general description
-      return "until your next $action turn, where there is a ${landmark.property} ${landmark.type}. Turn $action.";
+      instruction = 'Proceed onwards.';
     }
+
+    if (landmarks.isNotEmpty) {
+      // Keep it simple with just the first landmark that is found attached to the node link
+      NavigationEntity landmark = landmarks.first;
+      instruction += ' You will pass the ${landmark.name} on your (direction).';
+    }
+    return instruction;
   }
 }
