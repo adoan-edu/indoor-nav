@@ -10,8 +10,8 @@ class DescriptionGenerator {
     NavigationEntity currentEntity = currentPacket.current;
     double distance = currentPacket.distance;
     String action = currentPacket.action;
-    List<NavigationEntity> landmarks =
-        currentPacket.landmarks; // landmarks attached to node link
+    List<NavigationEntity> landmarks = currentPacket.landmarks.map((landmark) => landmark.key).toList(); // landmarks attached to node link
+    List<String> landmarkDirections = currentPacket.landmarks.map((landmark) => landmark.value).toList(); // directions of landmarks attached to node link
     String straightInstruction = 'Continue straight for ${distance.toInt()} metres.';
 
     if (action == 'start') {
@@ -33,7 +33,8 @@ class DescriptionGenerator {
     if (landmarks.isNotEmpty) {
       // Keep it simple with just the first landmark that is found attached to the node link
       NavigationEntity landmark = landmarks.first;
-      instruction += ' You will pass the ${landmark.name} on your (direction).';
+      String landmarkDirection = landmarkDirections.first;
+      instruction += ' You will pass the ${landmark.name} on your $landmarkDirection.';
     }
     return instruction;
   }

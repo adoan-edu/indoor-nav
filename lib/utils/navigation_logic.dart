@@ -26,36 +26,69 @@ class NavigationLogic {
     NavigationEntity? nodeA = (currentIndex > 0)
         ? route.data[currentIndex - 1]
         : null;
-    NavigationEntity? nodeB =
-        route.data[currentIndex];
+    NavigationEntity? nodeB = route.data[currentIndex];
     NavigationEntity? nodeC = (currentIndex < route.data.length - 1)
         ? route.data[currentIndex + 1]
         : null;
 
+    // Empty list to store both the attached landmarks and its direction and add it to the packet
+    List<MapEntry<NavigationEntity, String>> landmarksWithDirections = [];
+
     // Bound check
+    // At end: next node is null, current and previous node is non-null
     if (nodeC == null && nodeA != null) {
+      // Get landmarks attached to node link and their directions
+      List<NavigationEntity> linkedLandmarks = findLandmarksOnLink(
+        nodeA.id,
+        nodeB.id,
+        masterData,
+      );
+      for (NavigationEntity landmark in linkedLandmarks) {
+        String direction = calculateLandmarkDirection(nodeA, nodeB, landmark);
+        landmarksWithDirections.add(MapEntry(landmark, direction));
+      }
       return NavigationPacket(
         current: nodeB,
         next: null,
         distance: 0.0,
         action: 'end',
-        landmarks: findLandmarksOnLink(nodeA.id, nodeB.id, masterData),
+        landmarks: landmarksWithDirections,
       );
     } else if (nodeA == null) {
+      // Get landmarks attached to node link and their directions
+      List<NavigationEntity> linkedLandmarks = findLandmarksOnLink(
+        nodeB.id,
+        nodeC!.id,
+        masterData,
+      );
+      for (NavigationEntity landmark in linkedLandmarks) {
+        String direction = calculateLandmarkDirection(nodeB, nodeC, landmark);
+        landmarksWithDirections.add(MapEntry(landmark, direction));
+      }
       return NavigationPacket(
         current: nodeB,
-        next: nodeC!,
+        next: nodeC,
         distance: calculateDistance(nodeB, nodeC),
         action: 'start',
-        landmarks: findLandmarksOnLink(nodeB.id, nodeC.id, masterData),
+        landmarks: landmarksWithDirections,
       );
     } else {
+      // Get landmarks attached to node link and their directions
+      List<NavigationEntity> linkedLandmarks = findLandmarksOnLink(
+        nodeB.id,
+        nodeC!.id,
+        masterData,
+      );
+      for (NavigationEntity landmark in linkedLandmarks) {
+        String direction = calculateLandmarkDirection(nodeB, nodeC, landmark);
+        landmarksWithDirections.add(MapEntry(landmark, direction));
+      }
       return NavigationPacket(
         current: nodeB,
-        next: nodeC!,
+        next: nodeC,
         distance: calculateDistance(nodeB, nodeC),
         action: calculateAction(nodeA, nodeB, nodeC),
-        landmarks: findLandmarksOnLink(nodeB.id, nodeC.id, masterData),
+        landmarks: landmarksWithDirections,
       );
     }
   }
@@ -69,14 +102,33 @@ List<NavigationEntity> findLandmarksOnLink(
 ) {
   List<NavigationEntity> landmarks = [];
   for (NavigationEntity entity in masterData.values) {
-    if (entity.isNode == false && entity.attachedToLink == '$fromId-$toId') {
+    if (entity.isNode == false &&
+        (entity.attachedToLink == '$fromId-$toId' ||
+            entity.attachedToLink == '$toId-$fromId')) {
       landmarks.add(entity);
     }
   }
   return landmarks;
 }
 
-// Get action from route.data.id data
+// Calculate direction using 2D cross product of node link heading vector and the attached landmark vector
+String calculateLandmarkDirection(
+  NavigationEntity current,
+  NavigationEntity next,
+  NavigationEntity landmark,
+) {
+  // Node link vector
+  double ax = next.x - current.x;
+  double ay = next.y - current.y;
+  // Landmark vector (from current node)
+  double bx = landmark.x - current.x;
+  double by = landmark.y - current.y;
+  double crossProduct = (ax * by) - (ay * bx);
+
+  return (crossProduct > 0) ? 'left' : 'right';
+}
+
+// Calculate Manhattan distance between two points
 double calculateDistance(
   NavigationEntity currentNode,
   NavigationEntity nextNode,
@@ -87,6 +139,7 @@ double calculateDistance(
   return dx.abs() + dy.abs(); // Node Link Distance
 }
 
+// Calculate bearing (unit circle) between two points
 double calculateHeading(
   NavigationEntity currentNode,
   NavigationEntity nextNode,
@@ -97,6 +150,7 @@ double calculateHeading(
   return atan2(dy, dx);
 }
 
+// Generate action string when traversing between nodes
 String calculateAction(
   NavigationEntity previousNode,
   NavigationEntity currentNode,
@@ -109,7 +163,7 @@ String calculateAction(
     return 'straight';
   }
   if (phi - theta == pi / 2 || phi - theta == -3 * pi / 2) {
-    return 'left'; 
+    return 'left';
   }
   if (phi - theta == 3 * pi / 2 || phi - theta == -pi / 2) {
     return 'right';

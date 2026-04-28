@@ -5,7 +5,7 @@ class NavigationPacket {
   final NavigationEntity? next; // Node C
   final double distance; // Manhattan distance from B -> C
   final String action; // "left", "right", "straight"
-  final List<NavigationEntity> landmarks; // landmarks attached to node link B-C
+  final List<MapEntry<NavigationEntity, String>> landmarks; // landmarks attached to node link B-C
 
   NavigationPacket({
     required this.current,

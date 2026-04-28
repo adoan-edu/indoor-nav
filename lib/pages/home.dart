@@ -88,7 +88,7 @@ class _HomePageState extends State<HomePage> {
         ' ${currentPacket.next?.id}'
         ' ${currentPacket.distance}'
         ' ${currentPacket.action}'
-        ' ${currentPacket.landmarks.map((entity) => entity.id).join('\n')}';
+        ' (${currentPacket.landmarks.map((entry) => "${entry.key.id} ${entry.value}").join(' ')})';
     if (currentPacket.action == 'end') {
       setState(() {
         _currentActionIcon = Icons.check_circle;

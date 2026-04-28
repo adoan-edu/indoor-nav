@@ -244,6 +244,16 @@ final Map<String, NavigationEntity> building1Data = {
     y: -9,
   ),
 
+
+  // test landmarks drawn in log #24
+  'l1': NavigationEntity(id: '801', name: 'stack of boxes', isNode: false, x: 13, y: 2, attachedToLink: '903-904'),
+  'l2': NavigationEntity(id: '802', name: 'potted plant', isNode: false, x: 12, y: -8, attachedToLink: '905-906'),
+  'l3': NavigationEntity(id: '803', name: 'fire hydrant', isNode: false, x: 22, y: -8, attachedToLink: '907-908'),
+  'l4': NavigationEntity(id: '804', name: 'first aid station', isNode: false, x: 24, y: -8, attachedToLink: '907-908'),
+  'l5': NavigationEntity(id: '805', name: 'bulletin board', isNode: false, x: 16, y: -17, attachedToLink: '912-913'),
+
+
+
   // test nodes drawn in log #24
   'node_0_0': NavigationEntity(
     id: '901',
