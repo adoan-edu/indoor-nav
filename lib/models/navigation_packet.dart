@@ -1,4 +1,7 @@
-import '../models/navigation_entity.dart';
+// navigation_packet.dart 
+// file description: class for packet data
+
+import 'navigation_entity.dart';
 
 class NavigationPacket {
   final NavigationEntity current; // Node B

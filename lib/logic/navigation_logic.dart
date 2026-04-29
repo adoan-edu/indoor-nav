@@ -1,3 +1,6 @@
+// navigation_logic.dart 
+// file description: contains logic between navigation entities
+
 import 'package:indoor_nav/models/navigation_route.dart';
 
 import '../models/navigation_entity.dart';

@@ -1,3 +1,6 @@
+// navigation_route.dart 
+// file description: class for route data
+
 import 'navigation_entity.dart';
 
 class NavigationRoute { // Class name 'Route' is taken by flutter's in-built screen navigation system

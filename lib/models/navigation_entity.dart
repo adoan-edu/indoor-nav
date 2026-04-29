@@ -1,3 +1,6 @@
+// navigation_entity.dart 
+// file description: class for entity data (nodes or landmarks)
+
 class NavigationEntity {
   final String
   id; // for differenting between unique landmarks of similar type - 'ABC' where digit 'A' is the type identifier and 'BC' is the value

@@ -1,8 +1,11 @@
-import 'navigation_route.dart';
-import 'navigation_entity.dart';
+// building1_navigation.dart 
+// file description: constructed navigation routes constructed using entities mapped in building1
+
+import '../models/navigation_route.dart';
+import '../models/navigation_entity.dart';
 import 'building1_data.dart';
 
-// Method for retrieving Landmark data from the Master Map of the Indoor Environment
+// Method for retrieving landmark data from the master map of the indoor environment
 NavigationEntity getData(String key) {
   return building1Data[key] ??
       NavigationEntity(

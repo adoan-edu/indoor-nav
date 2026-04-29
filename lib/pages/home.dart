@@ -3,10 +3,10 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:indoor_nav/models/navigation_packet.dart';
 import 'package:indoor_nav/models/navigation_route.dart';
 import 'package:indoor_nav/models/navigation_entity.dart';
-import 'package:indoor_nav/utils/description_generator.dart';
-import 'package:indoor_nav/utils/navigation_logic.dart';
-import 'package:indoor_nav/models/building1_data.dart';
-import 'package:indoor_nav/models/building1_navigation.dart';
+import 'package:indoor_nav/logic/description_generator.dart';
+import 'package:indoor_nav/logic/navigation_logic.dart';
+import 'package:indoor_nav/data/building1_data.dart';
+import 'package:indoor_nav/data/building1_navigation.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

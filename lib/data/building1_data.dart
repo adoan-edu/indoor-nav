@@ -1,4 +1,7 @@
-import 'navigation_entity.dart';
+// building1_data.dart 
+// file description: the master data for building1 (a map of key strings to navigation entities)
+
+import '../models/navigation_entity.dart';
 
 final Map<String, NavigationEntity> building1Data = {
   // A=2 (Room) in id ABC
