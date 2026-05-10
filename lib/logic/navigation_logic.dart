@@ -1,4 +1,4 @@
-// navigation_logic.dart 
+// navigation_logic.dart
 // file description: contains logic between navigation entities
 
 import 'package:indoor_nav/models/navigation_route.dart';
@@ -98,6 +98,7 @@ class NavigationLogic {
 }
 
 // Return list of landmarks attached to the link between two nodes
+// Used to process the landmarks along a given route (the route does not contain landmark information - landmark data is gathered by using this method's lookup with the master data)
 List<NavigationEntity> findLandmarksOnLink(
   String fromId,
   String toId,

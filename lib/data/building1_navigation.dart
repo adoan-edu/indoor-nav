@@ -10,7 +10,7 @@ NavigationEntity getData(String key) {
   return building1Data[key] ??
       NavigationEntity(
         id: 'err',
-        name: '<error> landmark not found',
+        name: '<error> entity not found',
         x: 0,
         y: 0,
         isNode: false,
