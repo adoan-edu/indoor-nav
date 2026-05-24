@@ -38,7 +38,7 @@ class NavigationLogic {
     List<MapEntry<NavigationEntity, String>> landmarksWithDirections = [];
 
     // Bound check
-    // At the end the next node is null, and the current and previous node is non-null
+    // At the end of the route the next node is null, and the current and previous node is non-null
     if (nodeC == null && nodeA != null) {
       // Get landmarks attached to node link and their directions
       List<NavigationEntity> linkedLandmarks = findLandmarksOnLink(
