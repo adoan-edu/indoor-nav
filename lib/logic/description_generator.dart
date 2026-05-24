@@ -1,3 +1,6 @@
+// description_generator.dart 
+// file description: converts packets to natural language
+
 import '../models/navigation_entity.dart';
 import '../models/navigation_packet.dart';
 
