@@ -1,16 +1,13 @@
 # indoor_nav
 
-A new Flutter project.
+# Landmark-Based Indoor Navigation
 
-## Getting Started
+A lightweight indoor navigation system built with Flutter and Dart. It runs offline, using deterministic 2D vector analysis and cross-products to generate natural language instructions directly on a smartphone.
 
-This project is a starting point for a Flutter application.
+## Project Structure
+* `/lib`: Core application data, logic, classes (models) and interface.
+* `pubspec.yaml`: Configuration for Flutter environment and dependencies (cupertino, svg and TTS).
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Testing Notice
+* **Demo Route B** is the verified test route evaluated within the thesis text (Nodes 901 to 913).
+* Demo Route A contains outdated prototype data.
